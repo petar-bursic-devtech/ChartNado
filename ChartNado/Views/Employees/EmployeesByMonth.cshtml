@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<style type="text/css">
+    path {
+        stroke: steelblue;
+        stroke-width: 2;
+        fill: none;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1;
+        -webkit-shape-rendering: crispEdges;
+        -moz-shape-rendering: crispEdges;
+        -ms-shape-rendering: crispEdges;
+        -o-shape-rendering: crispEdges;
+        shape-rendering: crispEdges;
+    }
+
+    .d3-tip {
+        line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        -ms-border-radius: 2px;
+        border-radius: 2px;
+    }
+
+    .datapoint:hover {
+        fill: steelblue;
+    }
+</style>
+
+<script src="~/Scripts/d3/d3.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+<script src="~/Scripts/ChartData/employeeByMonth.js"></script>
+
+
+
+
+<h2>Employees by month</h2>

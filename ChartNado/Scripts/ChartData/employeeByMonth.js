@@ -1,4 +1,4 @@
-﻿d3.csv("../Data/data.csv", function (d) {
+﻿d3.csv("../SensitiveData/data.csv", function (d) {
     return {
         name: d["Name"],
         position: d["Employee role"],

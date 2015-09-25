@@ -32,7 +32,7 @@ function generateGraph(employeeData) {
     var grouped = d3.nest()
         .key(function (d) {
             var date = d3.time.month(getDate(d.joinDate));
-            date.setMonth(date.getMonth() + 1);
+            date.setMonth(date.getMonth() - 1);
             return date;
         })
         .entries(employeeData.sort(function(a, b) {
@@ -43,15 +43,19 @@ function generateGraph(employeeData) {
     //get number of employee at date of hire
     function getNumberOfEmployees(groupedEmployeesByDate) {
 
+
         var count = 0;
 
         var lastDateToConsider = getDateByKey(groupedEmployeesByDate);
+        
 
         //increase for joinDate
         for (var i = 0; i < employeeData.length; i++) {
             var currentJoinDate = getDate((employeeData[i].joinDate));
+            var month = currentJoinDate.getMonth();
+            currentJoinDate.setMonth(month-2);
 
-            if (lastDateToConsider.getTime() > d3.time.month(currentJoinDate).getTime()) {
+            if (lastDateToConsider.getTime() > currentJoinDate.getTime()) {
                 count++;
             }
         }
@@ -59,8 +63,10 @@ function generateGraph(employeeData) {
         //decrease for leaveDate
         for (var j = 0; j < employeeData.length; j++) {
             var currentLeaveDate = getDate((employeeData[j].leaveDate));
+            var leaveMonth = currentLeaveDate.getMonth();
+            currentLeaveDate.setMonth(leaveMonth - 2);
 
-            if (lastDateToConsider.getTime() > d3.time.month(currentLeaveDate).getTime()) {
+            if (lastDateToConsider.getTime() > currentLeaveDate.getTime()) {
                 count--;
             }
         }
@@ -105,9 +111,10 @@ function generateGraph(employeeData) {
             var date = getDateByKey(groupedEmployeesByDate);
 
             var numberOfEmployeesForMonth = getNumberOfEmployees(groupedEmployeesByDate);
+            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
             var monthStats =
-                "<p>Month: " + (date.getMonth()-1) + "/" + date.getFullYear() + "<br>" +
+                "<p>Month: " + (monthNames[date.getMonth()]) + "/" + date.getFullYear() + "<br>" +
                 "Number of Employees: " + numberOfEmployeesForMonth + "</p><hr>" +
                 "New employees:<br>";
 
@@ -137,7 +144,7 @@ function generateGraph(employeeData) {
                 if (employeeLeft.leaveDate) {
                     var employeeLeftDate = getDate(employeeLeft.leaveDate);
 
-                    if ((employeeLeftDate.getMonth() + 1) === date.getMonth()
+                    if ((employeeLeftDate.getMonth()-1) === date.getMonth()
                         && (employeeLeftDate.getFullYear() === date.getFullYear())) {
                         employeesLeft = employeesLeft.concat(
                         "<p>Name: " + employeeLeft.name + " <br>" +

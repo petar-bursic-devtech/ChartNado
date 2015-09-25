@@ -1,8 +1,8 @@
 ﻿d3.csv("../SensitiveData/data.csv", function (d) {
     return {
         name: d["Name"],
-        position: d["Employee role"],
-        joinDate: d["joinDate"]
+        joinDate: d["joinDate"],
+        leaveDate: d["leaveDate"]
     };
 }, function (error, rows) {
     generateGraph(rows);
@@ -20,12 +20,18 @@ function generateGraph(employeeData) {
 
     function getDate(employeeJoinDate) {
         var fromDate = employeeJoinDate.split("/");
-        var date = new Date(fromDate[2], fromDate[1] - 1, fromDate[0]);
+        var date = new Date(fromDate[2], fromDate[0], fromDate[1]);
         return date;
     }
 
     function getDateByKey(groupedEmployeesByDate) {
         var date = new Date(groupedEmployeesByDate["key"]);
+        return date;
+    }
+
+    function getDateByKeyForXLine(groupedEmployeesByDate) {
+        var date = new Date(groupedEmployeesByDate["key"]);
+        console.log(groupedEmployeesByDate);
         return date;
     }
 
@@ -35,7 +41,9 @@ function generateGraph(employeeData) {
             date.setMonth(date.getMonth() + 1);
             return date;
         })
-        .entries(employeeData);
+        .entries(employeeData.sort(function(a, b) {
+            return new Date(a.joinDate).getTime() - new Date(b.joinDate).getTime();
+        }));
 
 
     //get number of employee at date of hire
@@ -45,12 +53,21 @@ function generateGraph(employeeData) {
 
         var lastDateToConsider = getDateByKey(groupedEmployeesByDate);
 
-        //get number of employee
+        //increase for joinDate
         for (var i = 0; i < employeeData.length; i++) {
-            var currentDate = getDate((employeeData[i].joinDate));
+            var currentJoinDate = getDate((employeeData[i].joinDate));
 
-            if (lastDateToConsider.getTime() > d3.time.month(currentDate).getTime()) {
+            if (lastDateToConsider.getTime() > d3.time.month(currentJoinDate).getTime()) {
                 count++;
+            }
+        }
+
+        //decrease for leaveDate
+        for (var j = 0; j < employeeData.length; j++) {
+            var currentLeaveDate = getDate((employeeData[j].leaveDate));
+
+            if (lastDateToConsider.getTime() > d3.time.month(currentLeaveDate).getTime()) {
+                count--;
             }
         }
 
@@ -93,37 +110,57 @@ function generateGraph(employeeData) {
         .html(function (groupedEmployeesByDate) {
             var date = getDateByKey(groupedEmployeesByDate);
 
-            console.log(groupedEmployeesByDate["key"]);
-
             var numberOfEmployeesForMonth = getNumberOfEmployees(groupedEmployeesByDate);
-            console.log(numberOfEmployeesForMonth);
-
-            //in js month starts from 0
 
             var monthStats =
-                "<p>Month: " + (date.getMonth() + 1) + "/" + date.getFullYear() + "<br>" +
+                "<p>Month: " + (date.getMonth()-1) + "/" + date.getFullYear() + "<br>" +
                 "Number of Employees: " + numberOfEmployeesForMonth + "</p><hr>" +
                 "New employees:<br>";
 
             var newEmployees = "";
 
+            //add employees which joined
             for (var i = 0; i < groupedEmployeesByDate["values"].length; i++) {
+
                 var employee = groupedEmployeesByDate["values"][i];
 
-                newEmployees = newEmployees.concat(
+                if (employee.joinDate) {
+                    newEmployees = newEmployees.concat(
                     "<p>Name: " + employee.name + " <br>" +
-                    "Postion: " + employee.position + " " + "<br>" +
                     "Join Date: " + employee.joinDate + "</p>");
+                }
             }
 
-            return monthStats.concat(newEmployees);
+            monthStats = monthStats.concat(newEmployees);
+            monthStats = monthStats.concat("<br>Employees left:<br>");
+            var employeesLeft = "";
+
+            //add employees which left
+            for (var j = 0; j < employeeData.length; j++) {
+
+                var employeeLeft = employeeData[j];
+
+                if (employeeLeft.leaveDate) {
+                    var employeeLeftDate = getDate(employeeLeft.leaveDate);
+
+                    if ((employeeLeftDate.getMonth() + 1) === date.getMonth()
+                        && (employeeLeftDate.getFullYear() === date.getFullYear())) {
+                        employeesLeft = employeesLeft.concat(
+                        "<p>Name: " + employeeLeft.name + " <br>" +
+                        "Leave Date: " + employeeLeft.leaveDate + "</p>");
+                    }
+                }
+                
+            }
+
+            return monthStats.concat(employeesLeft);
         });
 
     svg.call(tip);
 
     //define the lines
     var valueline = d3.svg.line()
-        .x(function (d) { return xScale(getDateByKey(d)); })
+        .x(function (d) { return xScale(getDateByKeyForXLine(d)); })
         .y(function (d) { return yScale(getNumberOfEmployees(d)); });
 
     // Add the valueline path.

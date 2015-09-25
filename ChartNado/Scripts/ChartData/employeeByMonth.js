@@ -17,6 +17,7 @@ function generateGraph(employeeData) {
     var yScale;
     var xAxis;
     var yAxis;
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     function getDate(employeeJoinDate) {
         var fromDate = employeeJoinDate.split("/");
@@ -111,7 +112,7 @@ function generateGraph(employeeData) {
             var date = getDateByKey(groupedEmployeesByDate);
 
             var numberOfEmployeesForMonth = getNumberOfEmployees(groupedEmployeesByDate);
-            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
 
             var monthStats =
                 "<p>Month: " + (monthNames[date.getMonth()]) + "/" + date.getFullYear() + "<br>" +

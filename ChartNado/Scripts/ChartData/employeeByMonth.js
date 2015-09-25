@@ -29,12 +29,6 @@ function generateGraph(employeeData) {
         return date;
     }
 
-    function getDateByKeyForXLine(groupedEmployeesByDate) {
-        var date = new Date(groupedEmployeesByDate["key"]);
-        console.log(groupedEmployeesByDate);
-        return date;
-    }
-
     var grouped = d3.nest()
         .key(function (d) {
             var date = d3.time.month(getDate(d.joinDate));
@@ -160,7 +154,7 @@ function generateGraph(employeeData) {
 
     //define the lines
     var valueline = d3.svg.line()
-        .x(function (d) { return xScale(getDateByKeyForXLine(d)); })
+        .x(function (d) { return xScale(getDateByKey(d)); })
         .y(function (d) { return yScale(getNumberOfEmployees(d)); });
 
     // Add the valueline path.

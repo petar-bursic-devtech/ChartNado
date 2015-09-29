@@ -1,0 +1,102 @@
+﻿/*
+    Component: Sidebar
+--------------------------
+*/
+
+.sidebar {
+    height: 100%;
+    margin-bottom: 5px;
+}
+
+.sidebar-form input:focus {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: transparent!important;
+}
+
+.sidebar-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-menu > li {
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar-menu > li > a {
+    padding: 12px 5px 12px 15px;
+    display: block;
+}
+
+.treeview-menu {
+    display: none;
+    list-style: none;
+    padding:0;
+    margin:0;
+}
+
+.treeview-menu > li {
+    margin: 0;
+}
+
+.treeview-menu > li > a {
+    padding: 5px 5px 5px 15px;
+    display: block;
+    font-size: 14px;
+    margin: 0px 0px;
+}
+
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ *  Gives us the push menu effect
+ */
+@media screen and (max-width: @screen-md) {
+
+    .relative {
+        position: relative;
+    }
+
+    .row-offcanvas-right
+    .sidebar-offcanvas {
+        right: -@left-side-width;
+    }
+
+    .row-offcanvas-left
+    .sidebar-offcanvas {
+        left: -@left-side-width;
+    }
+
+    .row-offcanvas-right.active {
+        right: @left-side-width;
+    }
+
+    .row-offcanvas-left.active {
+        left: @left-side-width;
+    }
+
+    .sidebar-offcanvas {
+        left: 0;
+    }
+
+    body.fixed {
+        .sidebar-offcanvas {
+            margin-top: 50px;
+            left: -@left-side-width;
+        }
+        .row-offcanvas-left.active {
+            .navbar {
+                left: @left-side-width!important;
+                right: 0;
+
+            }
+            .sidebar-offcanvas {
+                left: 0px;
+            }
+
+        }
+    }
+}

@@ -9,8 +9,8 @@
     @Scripts.Render("~/Scripts/d3/d3.js")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+    <header class="navbar navbar-inverse navbar-fixed-top">
+        <div class="">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -25,14 +25,34 @@
                 </ul>
             </div>
         </div>
+    </header>
+    <div class="content-wrapper">
+        <aside class="left-side sidebar-offcanvas">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu">
+                    <li id="dashboard">
+                        <a href="/Home">
+                            <i class="fa fa-home"></i> <span>Home</span>
+                        </a>
+                    </li>
+                    <li id="clients">
+                        <a href="@Url.Action("Index", "Clients")">
+                            <i class="fa fa-male"></i> <span>Employees</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+        <div class="body-content right">
+            @RenderBody()
+        </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

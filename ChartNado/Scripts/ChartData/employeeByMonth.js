@@ -94,7 +94,7 @@ function generateGraph(employeeData) {
 
 
     //create svg
-    var svg = d3.select("body")
+    var svg = d3.select(".body-content")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)

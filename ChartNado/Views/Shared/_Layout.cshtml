@@ -19,11 +19,6 @@
                 </button>
                 @Html.ActionLink("ChartNado", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                </ul>
-            </div>
         </div>
     </header>
     <div class="content-wrapper">
@@ -38,8 +33,8 @@
                         </a>
                     </li>
                     <li id="clients">
-                        <a href="@Url.Action("Index", "Clients")">
-                            <i class="fa fa-male"></i> <span>Employees</span>
+                        <a href="@Url.Action("EmployeesByMonth", "Employees")">
+                            <i class="fa fa-male"></i> <span>HR</span>
                         </a>
                     </li>
                 </ul>
@@ -48,11 +43,11 @@
         <div class="body-content right">
             @RenderBody()
         </div>
+        <hr />
+        <footer>
+            <p>Copyleft @DateTime.Now.Year DEVTECH &copy; | Chartnado</p>
+        </footer>
     </div>
-    <hr />
-    <footer>
-        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

@@ -4,44 +4,40 @@
 
 <style type="text/css">
     path {
+        fill: none;
         stroke: steelblue;
         stroke-width: 2;
-        fill: none;
     }
 
     .axis path,
     .axis line {
-        fill: none;
-        stroke: grey;
-        stroke-width: 1;
-        -webkit-shape-rendering: crispEdges;
         -moz-shape-rendering: crispEdges;
         -ms-shape-rendering: crispEdges;
         -o-shape-rendering: crispEdges;
+        -webkit-shape-rendering: crispEdges;
+        fill: none;
         shape-rendering: crispEdges;
+        stroke: grey;
+        stroke-width: 1;
     }
 
     .d3-tip {
-        line-height: 1;
-        font-weight: bold;
-        padding: 12px;
-        background: rgba(0, 0, 0, 0.8);
-        color: #fff;
         -ms-border-radius: 2px;
+        background: rgba(0, 0, 0, 0.8);
         border-radius: 2px;
+        color: #fff;
+        font-weight: bold;
+        line-height: 1;
+        padding: 12px;
     }
 
-    .datapoint:hover {
-        fill: steelblue;
-    }
+    .datapoint:hover { fill: steelblue; }
 </style>
 
 <script src="~/Scripts/d3/d3.js"></script>
 <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
 <script src="~/Scripts/ChartData/employeeByMonth.js"></script>
-
-
 
 
 <h2>Employees by month</h2>

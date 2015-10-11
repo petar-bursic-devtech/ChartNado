@@ -1,8 +1,8 @@
-﻿d3.csv("../SensitiveData/data.csv", function (d) {
+﻿d3.csv('../SensitiveData/data.csv', function (d) {
     return {
-        name: d["Name"],
-        joinDate: d["joinDate"],
-        leaveDate: d["leaveDate"]
+        name: d['Name'],
+        joinDate: d['joinDate'],
+        leaveDate: d['leaveDate']
     };
 }, function (error, rows) {
     generateGraph(rows);
@@ -17,16 +17,16 @@ function generateGraph(employeeData) {
     var yScale;
     var xAxis;
     var yAxis;
-    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     function getDate(employeeJoinDate) {
-        var fromDate = employeeJoinDate.split("/");
+        var fromDate = employeeJoinDate.split('/');
         var date = new Date(fromDate[2], fromDate[0], fromDate[1]);
         return date;
     }
 
     function getDateByKey(groupedEmployeesByDate) {
-        var date = new Date(groupedEmployeesByDate["key"]);
+        var date = new Date(groupedEmployeesByDate['key']);
         return date;
     }
 
@@ -36,7 +36,7 @@ function generateGraph(employeeData) {
             date.setMonth(date.getMonth() - 1);
             return date;
         })
-        .entries(employeeData.sort(function(a, b) {
+        .entries(employeeData.sort(function (a, b) {
             return new Date(a.joinDate).getTime() - new Date(b.joinDate).getTime();
         }));
 
@@ -48,13 +48,13 @@ function generateGraph(employeeData) {
         var count = 0;
 
         var lastDateToConsider = getDateByKey(groupedEmployeesByDate);
-        
+
 
         //increase for joinDate
         for (var i = 0; i < employeeData.length; i++) {
             var currentJoinDate = getDate((employeeData[i].joinDate));
             var month = currentJoinDate.getMonth();
-            currentJoinDate.setMonth(month-2);
+            currentJoinDate.setMonth(month - 2);
 
             if (lastDateToConsider.getTime() > currentJoinDate.getTime()) {
                 count++;
@@ -85,22 +85,22 @@ function generateGraph(employeeData) {
     xScale = d3.time.scale().range([margin.left, width - margin.right]).domain(d3.extent(employeeData, function (d) { return getDate(d.joinDate); })),
         yScale = d3.scale.linear().range([height - margin.top, margin.bottom]).domain([0, employeeData.length]),
 
-    // Define the axes
+        // Define the axes
         xAxis = d3.svg.axis()
             .scale(xScale),
         yAxis = d3.svg.axis()
             .scale(yScale)
-            .orient("left");
+            .orient('left');
 
 
     //create svg
-    var svg = d3.select("body")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+    var svg = d3.select('body')
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform',
+            'translate(' + margin.left + ',' + margin.top + ')');
 
 
     //tip for employee
@@ -112,30 +112,30 @@ function generateGraph(employeeData) {
             var date = getDateByKey(groupedEmployeesByDate);
 
             var numberOfEmployeesForMonth = getNumberOfEmployees(groupedEmployeesByDate);
-            
+
 
             var monthStats =
-                "<p>Month: " + (monthNames[date.getMonth()]) + "/" + date.getFullYear() + "<br>" +
-                "Number of Employees: " + numberOfEmployeesForMonth + "</p><hr>" +
-                "New employees:<br>";
+                '<p>Month: ' + (monthNames[date.getMonth()]) + '/' + date.getFullYear() + '<br>' +
+                    'Number of Employees: ' + numberOfEmployeesForMonth + '</p><hr>' +
+                    'New employees:<br>';
 
-            var newEmployees = "";
+            var newEmployees = '';
 
             //add employees which joined
-            for (var i = 0; i < groupedEmployeesByDate["values"].length; i++) {
+            for (var i = 0; i < groupedEmployeesByDate['values'].length; i++) {
 
-                var employee = groupedEmployeesByDate["values"][i];
+                var employee = groupedEmployeesByDate['values'][i];
 
                 if (employee.joinDate) {
                     newEmployees = newEmployees.concat(
-                    "<p>Name: " + employee.name + " <br>" +
-                    "Join Date: " + employee.joinDate + "</p>");
+                        '<p>Name: ' + employee.name + ' <br>' +
+                        'Join Date: ' + employee.joinDate + '</p>');
                 }
             }
 
             monthStats = monthStats.concat(newEmployees);
-            monthStats = monthStats.concat("<br>Employees left:<br>");
-            var employeesLeft = "";
+            monthStats = monthStats.concat('<br>Employees left:<br>');
+            var employeesLeft = '';
 
             //add employees which left
             for (var j = 0; j < employeeData.length; j++) {
@@ -145,14 +145,14 @@ function generateGraph(employeeData) {
                 if (employeeLeft.leaveDate) {
                     var employeeLeftDate = getDate(employeeLeft.leaveDate);
 
-                    if ((employeeLeftDate.getMonth()-1) === date.getMonth()
+                    if ((employeeLeftDate.getMonth() - 1) === date.getMonth()
                         && (employeeLeftDate.getFullYear() === date.getFullYear())) {
                         employeesLeft = employeesLeft.concat(
-                        "<p>Name: " + employeeLeft.name + " <br>" +
-                        "Leave Date: " + employeeLeft.leaveDate + "</p>");
+                            '<p>Name: ' + employeeLeft.name + ' <br>' +
+                            'Leave Date: ' + employeeLeft.leaveDate + '</p>');
                     }
                 }
-                
+
             }
 
             return monthStats.concat(employeesLeft);
@@ -166,25 +166,25 @@ function generateGraph(employeeData) {
         .y(function (d) { return yScale(getNumberOfEmployees(d)); });
 
     // Add the valueline path.
-    svg.append("path")
-        .attr("class", "line")
-        .attr("d", valueline(grouped));
+    svg.append('path')
+        .attr('class', 'line')
+        .attr('d', valueline(grouped));
 
     // Add the X Axis
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
+    svg.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0,' + height + ')')
         .call(xAxis);
 
     // Add the Y Axis
-    svg.append("g")
-        .attr("class", "y axis")
+    svg.append('g')
+        .attr('class', 'y axis')
         .call(yAxis);
 
     //Show and hide tip on mouse events
-    svg.selectAll(".dot")
+    svg.selectAll('.dot')
         .data(grouped)
-        .enter().append("circle")
+        .enter().append('circle')
         .attr('class', 'datapoint')
         .attr('cx', function (d) { return xScale(getDateByKey(d)); })
         .attr('cy', function (d) { return yScale(getNumberOfEmployees(d)); })

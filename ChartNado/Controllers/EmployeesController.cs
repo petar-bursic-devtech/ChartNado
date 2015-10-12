@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace ChartNado.Controllers
+﻿namespace ChartNado.Controllers
 {
+    using System.Web.Mvc;
+
+    [RoutePrefix("employees")]
     public class EmployeesController : Controller
     {
-        // GET: Employees
+        [HttpGet]
+        [Route]
         public ActionResult EmployeesByMonth()
         {
             return View();

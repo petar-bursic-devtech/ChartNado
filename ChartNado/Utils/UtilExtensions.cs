@@ -20,7 +20,9 @@
 
         public static string ToString(this IEnumerable<string> sourceList, string delimiter = ",")
         {
-            return sourceList.Aggregate((current, next) => current + delimiter + next);
+            return sourceList
+                .Where(elm => !string.IsNullOrWhiteSpace(elm))
+                .Aggregate((current, next) => current + delimiter + next);
         }
     }
 }
